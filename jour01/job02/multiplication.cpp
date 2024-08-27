@@ -28,4 +28,5 @@ int main(void)
     }
 
     cout << "Le resultat de " << a << " x " << b << " est " << a * b;
+    return 0;
 }
