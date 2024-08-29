@@ -18,6 +18,10 @@ public:
         return healthPoints > 0;
     }
 
+    int getHealth(){
+        return healthPoints;
+    }
+
     void takeDamage(int damage) {
         healthPoints -= damage;
         if (healthPoints < 0) {
@@ -30,7 +34,6 @@ public:
     }
 
     void update() override {
-        // Character specific update logic (e.g., move, check status)
     }
 
     const string& getName() const {
