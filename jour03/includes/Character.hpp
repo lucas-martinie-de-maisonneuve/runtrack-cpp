@@ -63,9 +63,7 @@ public:
         return position.distance(otherPos);
     }
 
-    // Implémentation de la méthode update pour ne pas être abstraite
     void update() override {
-        // Implémentation par défaut ou faire en sorte que les dérivés le fassent
     }
 };
 
