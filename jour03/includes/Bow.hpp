@@ -10,11 +10,15 @@ private:
     int power;
 
 public:
-    Bow() : range(4), power(1) {}
+    Bow() : range(3), power(1) {}
 
-    void attack(Character& target) const override {
+    void attack(Character& target) const override { 
         cout << "Attacking with Bow. Range: " << range << ", Power: " << power << endl;
         target.takeDamage(power);
+    }
+
+    int getRange() const override {
+        return range;
     }
 };
 

@@ -3,9 +3,11 @@
 
 #include "Character.hpp"
 
-class Weapon {
+class Weapon
+{
 public:
-    virtual void attack(Character& target) const = 0;
+    virtual void attack(Character &target) const = 0;
+    virtual int getRange() const = 0;
     virtual ~Weapon() = default;
 };
 

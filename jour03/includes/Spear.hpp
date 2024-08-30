@@ -12,9 +12,13 @@ private:
 public:
     Spear() : range(2), power(2) {}
 
-    void attack(Character& target) const override {
+    void attack(Character& target) const override { 
         cout << "Attacking with Spear. Range: " << range << ", Power: " << power << endl;
         target.takeDamage(power);
+    }
+
+    int getRange() const override {
+        return range;
     }
 };
 

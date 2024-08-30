@@ -1,24 +1,26 @@
 #ifndef CHARACTER_HPP
 #define CHARACTER_HPP
-using namespace std;
 
 #include "GameObject.hpp"
+#include "Vector2d.hpp"
 #include <string>
 
 class Character : public GameObject {
 private:
-    string name;
+    std::string name;
     int healthPoints;
 
 public:
-    Character(const string& name, int hp, double x = 0, double y = 0)
-        : GameObject(x, y), name(name), healthPoints(hp) {}
+    Vector2d position;  // Utilisation de Vector2d pour la position
+
+    Character(const std::string& name, int hp, double x = 0, double y = 0)
+        : GameObject(x, y), name(name), healthPoints(hp), position(x, y) {}
 
     bool isAlive() const {
         return healthPoints > 0;
     }
 
-    int getHealth(){
+    int getHealth() const {
         return healthPoints;
     }
 
@@ -30,14 +32,40 @@ public:
     }
 
     void draw() const override {
-        cout << "Drawing Character " << name << " at (" << getX() << ", " << getY() << ")" << endl;
+        std::cout << "Drawing Character " << name << " at ";
+        position.print();
     }
 
-    void update() override {
-    }
+    virtual void update(Character& target) = 0;  // Méthode virtuelle pure
 
-    const string& getName() const {
+    const std::string& getName() const {
         return name;
+    }
+
+    double getX() const {
+        return position.getX();
+    }
+
+    double getY() const {
+        return position.getY();
+    }
+
+    void setX(double newX) {
+        position.setX(newX);
+    }
+
+    void setY(double newY) {
+        position.setY(newY);
+    }
+
+    double distance(const Character& other) const {
+        Vector2d otherPos(other.getX(), other.getY());
+        return position.distance(otherPos);
+    }
+
+    // Implémentation de la méthode update pour ne pas être abstraite
+    void update() override {
+        // Implémentation par défaut ou faire en sorte que les dérivés le fassent
     }
 };
 

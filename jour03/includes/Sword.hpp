@@ -12,9 +12,13 @@ private:
 public:
     Sword() : range(1), power(4) {}
 
-    void attack(Character& target) const override {
+    void attack(Character& target) const override {  // Ajout du mot-clé 'const'
         cout << "Attacking with Sword. Range: " << range << ", Power: " << power << endl;
         target.takeDamage(power);
+    }
+
+    int getRange() const override {
+        return range;
     }
 };
 
