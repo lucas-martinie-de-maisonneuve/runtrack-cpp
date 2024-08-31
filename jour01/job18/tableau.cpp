@@ -1,18 +1,18 @@
 #include <iostream>
 using namespace std;
 
-void addElement(int*& table, int& taille, int nouvelElement) {
-    int* nouveauTableau = new int[taille + 1];
+void addElement(int*& table, int& taille, int elem) {
+    int* tempTable = new int[taille + 1];
     
     for (int i = 0; i < taille; ++i) {
-        nouveauTableau[i] = table[i];
+        tempTable[i] = table[i];
     }
     
-    nouveauTableau[taille] = nouvelElement;
+    tempTable[taille] = elem;
     
     delete[] table;
     
-    table = nouveauTableau;
+    table = tempTable;
     ++taille;
 }
 
@@ -30,22 +30,22 @@ int main() {
 
     showTable(tableau, taille);
 
-    addElement(tableau, taille, 10);
+    addElement(tableau, taille, 59);
     showTable(tableau, taille);
 
-    addElement(tableau, taille, 20);
+    addElement(tableau, taille, 295);
     showTable(tableau, taille);
 
-    addElement(tableau, taille, 30);
+    addElement(tableau, taille, 45);
     showTable(tableau, taille);
 
-    addElement(tableau, taille, 40);
+    addElement(tableau, taille, 2);
     showTable(tableau, taille);
 
-    addElement(tableau, taille, 50);
+    addElement(tableau, taille, 72);
     showTable(tableau, taille);
 
-    addElement(tableau, taille, 60);
+    addElement(tableau, taille, 98);
     showTable(tableau, taille);
 
     delete[] tableau;
