@@ -3,34 +3,31 @@
 
 #include "Character.hpp"
 #include "Weapon.hpp"
-#include "Spear.hpp"
 #include "Bow.hpp"
+#include "Spear.hpp"
 #include "Sword.hpp"
+#include "Game.hpp"
+#include <iostream>
+#include <vector>
+#include <memory>
 
 class Player : public Character
 {
 private:
-    Weapon *weapons[3];
+    std::vector<std::unique_ptr<Weapon>> weapons;
     int currentWeaponIndex;
+    Game &game;
 
 public:
-    Player(const std::string &name, int hp, double x, double y)
-        : Character(name, hp, x, y), currentWeaponIndex(0)
+    Player(const std::string &name, int hp, Game &game, double x = 0, double y = 0)
+        : Character(1, name, hp, x, y), currentWeaponIndex(0), game(game)
     {
-        weapons[0] = new Bow();
-        weapons[1] = new Spear();
-        weapons[2] = new Sword();
+        weapons.push_back(std::make_unique<Bow>());
+        weapons.push_back(std::make_unique<Spear>());
+        weapons.push_back(std::make_unique<Sword>());
     }
 
-    ~Player()
-    {
-        for (Weapon *weapon : weapons)
-        {
-            delete weapon;
-        }
-    }
-
-    void attack(Character &target) const
+    void attack(Character &target) const override
     {
         double dist = distance(target);
         if (dist <= weapons[currentWeaponIndex]->getRange())
@@ -44,8 +41,24 @@ public:
         }
     }
 
-    void update(Character &target) override
+    void update() override
     {
+        Character *closestEnemy = nullptr;
+        double minDistance = std::numeric_limits<double>::max();
+
+        for (const auto &obj : game.getObjects())
+        {
+            if (obj->getId() == 2)
+            {
+                Character *enemy = dynamic_cast<Character *>(obj.get());
+                if (enemy && distance(*enemy) < minDistance)
+                {
+                    minDistance = distance(*enemy);
+                    closestEnemy = enemy;
+                }
+            }
+        }
+
         bool hasMoved = false;
         bool hasAttacked = false;
         bool turnOver = false;
@@ -151,8 +164,19 @@ public:
                 }
                 else
                 {
-                    attack(target);
-                    hasAttacked = true;
+                    if (closestEnemy)
+                    {
+                        attack(*closestEnemy);
+                        hasAttacked = true;
+                        if (closestEnemy->getHp() <= 0)
+                        {
+                            std::cout << closestEnemy->getName() << " died from his wound." << std::endl;
+                        }
+                    }
+                    else
+                    {
+                        std::cout << "No enemies in range to attack!" << std::endl;
+                    }
                 }
                 break;
 
@@ -167,10 +191,10 @@ public:
             }
         }
     }
+
     void draw() const override
     {
-        std::cout << "Drawing Player " << getName() << " at ";
-        position.print();
+        std::cout << "[" << getName() << "] " << getHp() << " HP (" << getX() << ", " << getY() << ") " << std::endl;
     }
 };
 

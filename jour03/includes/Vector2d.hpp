@@ -1,28 +1,31 @@
 #ifndef VECTOR2D_HPP
 #define VECTOR2D_HPP
 
+#include <cmath>
 #include <iostream>
 
-class Vector2d {
+class Vector2d
+{
 private:
     double x, y;
 
 public:
-    Vector2d(double x = 0, double y = 0);
+    Vector2d(double x = 0, double y = 0) : x(x), y(y) {}
 
-    double getX() const;
-    double getY() const;
+    double getX() const { return x; }
+    double getY() const { return y; }
+    void setX(double newX) { x = newX; }
+    void setY(double newY) { y = newY; }
 
-    void setX(double newX);
-    void setY(double newY);
+    double distance(const Vector2d &other) const
+    {
+        return std::sqrt((x - other.x) * (x - other.x) + (y - other.y) * (y - other.y));
+    }
 
-    Vector2d operator+(const Vector2d& other) const;
-
-    Vector2d operator-(const Vector2d& other) const;
-
-    double distance(const Vector2d& other) const;
-
-    void print() const;
+    void print() const
+    {
+        std::cout << "(" << x << ", " << y << ")";
+    }
 };
 
 #endif

@@ -1,38 +1,38 @@
 #include <iostream>
+#include "includes/Game.hpp"
 #include "includes/Player.hpp"
 #include "includes/Enemy.hpp"
-#include "includes/Sword.hpp"
 #include "includes/Bow.hpp"
 #include "includes/Spear.hpp"
-
-using namespace std;
+#include "includes/Sword.hpp"
+#include "includes/Decor.hpp"
 
 int main()
 {
-    Player player("Hero", 100, 0, 0);
-    Enemy enemy("Goblin", 50, 5, 5, new Bow());
+    Game game;
 
-    player.draw();
-    enemy.draw();
+    auto player = std::make_unique<Player>("Hero", 100, game, 0, 0);
+    game.addObject(std::move(player));
 
-    for (int turn = 1; turn <= 5; ++turn)
+    auto enemy1 = std::make_unique<Enemy>("Goblin", 50, 5, 5, 2.0, game);
+    auto enemy2 = std::make_unique<Enemy>("Orc", 70, 10, 10, 2.0, game);
+    game.addObject(std::move(enemy1));
+    game.addObject(std::move(enemy2));
+
+    auto decor1 = std::make_unique<Decor>(2, 2);
+    auto decor2 = std::make_unique<Decor>(7, 7);
+    game.addObject(std::move(decor1));
+    game.addObject(std::move(decor2));
+
+    int turn = 0;
+    while (turn < 10)
     {
-        std::cout << "\n--- Turn " << turn << " ---\n";
+        std::cout << "Turn nb : " << turn << "\n";
+        game.drawObjects();
 
-        player.update(enemy);
-        enemy.update(player);
+        game.updateGame();
 
-        player.draw();
-        enemy.draw();
-
-        cout << player.getName() << " (" << player.getHealth() << " HP) // " << enemy.getName() << " (" << enemy.getHealth() << " HP)" << endl;
-
-        if (!player.isAlive() || !enemy.isAlive())
-        {
-            std::cout << "\nCombat ended.\n";
-            break;
-        }
+        turn++;
     }
-
     return 0;
 }

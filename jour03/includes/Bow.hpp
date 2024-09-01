@@ -1,24 +1,14 @@
 #ifndef BOW_HPP
 #define BOW_HPP
-using namespace std;
 
 #include "Weapon.hpp"
 
 class Bow : public Weapon {
-private:
-    int range;
-    int power;
-
 public:
-    Bow() : range(3), power(1) {}
-
-    void attack(Character& target) const override { 
-        cout << "Attacking with Bow. Range: " << range << ", Power: " << power << endl;
-        target.takeDamage(power);
-    }
-
-    int getRange() const override {
-        return range;
+    double getRange() const override { return 5.0; }
+    void attack(Character &target) const override {
+        std::cout << "Shooting an arrow at " << target.getName() <<" (-10) "<< std::endl;
+        target.takeDamage(10);
     }
 };
 

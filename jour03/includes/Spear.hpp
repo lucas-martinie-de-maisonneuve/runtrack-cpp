@@ -2,24 +2,14 @@
 #define SPEAR_HPP
 
 #include "Weapon.hpp"
-using namespace std;
 
 class Spear : public Weapon {
-private:
-    int range;
-    int power;
-
 public:
-    Spear() : range(2), power(2) {}
-
-    void attack(Character& target) const override { 
-        cout << "Attacking with Spear. Range: " << range << ", Power: " << power << endl;
-        target.takeDamage(power);
-    }
-
-    int getRange() const override {
-        return range;
+    double getRange() const override { return 3.0; }
+    void attack(Character &target) const override {
+        std::cout << "a spear at " << target.getName() <<" (-15) "<< std::endl;
+        target.takeDamage(15);
     }
 };
 
-#endif // SPEAR_HPP
+#endif

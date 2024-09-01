@@ -2,49 +2,89 @@
 #define ENEMY_HPP
 
 #include "Character.hpp"
-#include "Weapon.hpp"
+#include <cmath>
 
-class Enemy : public Character {
+class Enemy : public Character
+{
 private:
-    Weapon* weapon;
+    double moveSpeed;
+    Game &game;
 
 public:
-    Enemy(const std::string& name, int hp, double x, double y, Weapon* weapon)
-        : Character(name, hp, x, y), weapon(weapon) {}
+    Enemy(const std::string &name, int hp, double x, double y, double moveSpeed, Game &game)
+        : Character(2, name, hp, x, y), moveSpeed(moveSpeed), game(game) {}
 
-    void attack(Character& target) const {
+    void attack(Character &target) const override
+    {
         double dist = distance(target);
-        if (dist <= weapon->getRange()) {
-            std::cout << getName() << " is attacking " << target.getName() << " with ";
-            weapon->attack(target);
-        } else {
-            std::cout << getName() << " is out of range to attack " << target.getName() << std::endl;
+        if (dist <= 1.0) 
+        {
+            std::cout << getName() << " attacks " << target.getName() <<" (-10) "<< std::endl;
+            target.takeDamage(10);
         }
     }
 
-    void update(Character& target) override {  // Implémentation de la méthode update
-        double dist = distance(target);
-        if (dist > weapon->getRange()) {
-            // Se rapprocher de la cible
-            if (getX() < target.getX()) {
-                setX(getX() + 1);
-            } else if (getX() > target.getX()) {
-                setX(getX() - 1);
-            } else if (getY() < target.getY()) {
-                setY(getY() + 1);
-            } else if (getY() > target.getY()) {
-                setY(getY() - 1);
+    void update() override
+    {
+        Character *player = nullptr;
+        double minDistance = std::numeric_limits<double>::max();
+
+        for (const auto &obj : game.getObjects())
+        {
+            if (obj->getId() == 1)
+            {
+                player = dynamic_cast<Character *>(obj.get());
+                if (player)
+                {
+                    double dist = distance(*player);
+                    if (dist < minDistance)
+                    {
+                        minDistance = dist;
+                    }
+                }
             }
-            std::cout << getName() << " moved to (" << getX() << ", " << getY() << ")" << std::endl;
         }
 
-        // Tenter une attaque après le déplacement
-        attack(target);
+        if (player)
+        {
+            double distX = player->getX() - getX();
+            double distY = player->getY() - getY();
+
+            if (std::abs(distX) <= 1.0 && std::abs(distY) <= 1.0)
+            {
+                attack(*player);
+            }
+            else
+            {
+                if (std::abs(distX) > std::abs(distY))
+                {
+                    if (distX > 0)
+                    {
+                        setX(getX() + moveSpeed);
+                    }
+                    else
+                    {
+                        setX(getX() - moveSpeed);
+                    }
+                }
+                else
+                {
+                    if (distY > 0)
+                    {
+                        setY(getY() + moveSpeed);
+                    }
+                    else
+                    {
+                        setY(getY() - moveSpeed);
+                    }
+                }
+            }
+        }
     }
 
-    void draw() const override {
-        std::cout << "Drawing Enemy " << getName() << " at ";
-        position.print();
+    void draw() const override
+    {
+        std::cout << "[" << getName() << "] "<< getHp() <<" HP (" << getX() << ", " << getY() << ") " << std::endl;
     }
 };
 
