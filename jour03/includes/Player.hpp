@@ -133,27 +133,39 @@ public:
                               << "       +-----------------------------------------+\n\t";
                     std::cin >> move;
 
+                    double newX = getX();
+                    double newY = getY();
+
                     switch (move)
                     {
                     case 'z':
-                        setY(getY() - 1);
+                        newY -= 1;
                         break;
                     case 'q':
-                        setX(getX() - 1);
+                        newX -= 1;
                         break;
                     case 's':
-                        setY(getY() + 1);
+                        newY += 1;
                         break;
                     case 'd':
-                        setX(getX() + 1);
+                        newX += 1;
                         break;
                     default:
                         std::cout << "!!! Invalid move direction !!!" << std::endl;
                         continue;
                     }
 
-                    std::cout << getName() << " moved to (" << getX() << ", " << getY() << ")" << std::endl;
-                    hasMoved = true;
+                    if (!game.isPositionOccupied(newX, newY))
+                    {
+                        setX(newX);
+                        setY(newY);
+                        std::cout << getName() << " moved to (" << getX() << ", " << getY() << ")" << std::endl;
+                        hasMoved = true;
+                    }
+                    else
+                    {
+                        std::cout << "!!! Position is occupied !!!" << std::endl;
+                    }
                 }
                 break;
 

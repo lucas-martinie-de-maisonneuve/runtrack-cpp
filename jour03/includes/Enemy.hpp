@@ -61,14 +61,14 @@ public:
                 {
                     if (distX > 0)
                     {
-                        if (!game.isCellOccupied(static_cast<int>(getX() + moveSpeed), static_cast<int>(getY())))
+                        if (!game.isPositionOccupied(getX() + moveSpeed, getY()))
                         {
                             setX(getX() + moveSpeed);
                         }
                     }
                     else
                     {
-                        if (!game.isCellOccupied(static_cast<int>(getX() - moveSpeed), static_cast<int>(getY())))
+                        if (!game.isPositionOccupied(getX() - moveSpeed, getY()))
                         {
                             setX(getX() - moveSpeed);
                         }
@@ -78,14 +78,14 @@ public:
                 {
                     if (distY > 0)
                     {
-                        if (!game.isCellOccupied(static_cast<int>(getX()), static_cast<int>(getY() + moveSpeed)))
+                        if (!game.isPositionOccupied(getX(), getY() + moveSpeed))
                         {
                             setY(getY() + moveSpeed);
                         }
                     }
                     else
                     {
-                        if (!game.isCellOccupied(static_cast<int>(getX()), static_cast<int>(getY() - moveSpeed)))
+                        if (!game.isPositionOccupied(getX(), getY() - moveSpeed))
                         {
                             setY(getY() - moveSpeed);
                         }

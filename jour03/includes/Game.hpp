@@ -70,6 +70,25 @@ public:
 
         return gridX >= 0 && gridX < GRID_SIZE && gridY >= 0 && gridY < GRID_SIZE && collisionGrid[gridY][gridX];
     }
+
+    bool isPositionOccupied(double x, double y) const
+    {
+        int gridX = static_cast<int>(x) / CELL_SIZE;
+        int gridY = static_cast<int>(y) / CELL_SIZE;
+
+        if (gridX >= 0 && gridX < GRID_SIZE && gridY >= 0 && gridY < GRID_SIZE)
+        {
+            for (const auto &obj : gameObjects)
+            {
+                if (obj->getX() == x && obj->getY() == y)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     void addObject(std::unique_ptr<GameObject> obj)
     {
         gameObjects.push_back(std::move(obj));
