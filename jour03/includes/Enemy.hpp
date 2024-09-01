@@ -17,9 +17,9 @@ public:
     void attack(Character &target) const override
     {
         double dist = distance(target);
-        if (dist <= 1.0) 
+        if (dist <= 1.0)
         {
-            std::cout << getName() << " attacks " << target.getName() <<" (-10) "<< std::endl;
+            std::cout << getName() << " attacks " << target.getName() << " (-10) " << std::endl;
             target.takeDamage(10);
         }
     }
@@ -31,7 +31,7 @@ public:
 
         for (const auto &obj : game.getObjects())
         {
-            if (obj->getId() == 1)
+            if (obj->getId() == 1) // ID 1 pour le joueur
             {
                 player = dynamic_cast<Character *>(obj.get());
                 if (player)
@@ -50,32 +50,45 @@ public:
             double distX = player->getX() - getX();
             double distY = player->getY() - getY();
 
-            if (std::abs(distX) <= 1.0 && std::abs(distY) <= 1.0)
+            if (std::abs(distX) <= 1.0 && std::abs(distY) <= 1.0) // Ajustez la portée d'attaque ici
             {
                 attack(*player);
             }
             else
             {
-                if (std::abs(distX) > std::abs(distY))
+                // Déplacement en X ou Y
+                if (std::abs(distX) > std::abs(distY)) // Déplacement principalement en X
                 {
                     if (distX > 0)
                     {
-                        setX(getX() + moveSpeed);
+                        if (!game.isCellOccupied(static_cast<int>(getX() + moveSpeed), static_cast<int>(getY())))
+                        {
+                            setX(getX() + moveSpeed);
+                        }
                     }
                     else
                     {
-                        setX(getX() - moveSpeed);
+                        if (!game.isCellOccupied(static_cast<int>(getX() - moveSpeed), static_cast<int>(getY())))
+                        {
+                            setX(getX() - moveSpeed);
+                        }
                     }
                 }
                 else
                 {
                     if (distY > 0)
                     {
-                        setY(getY() + moveSpeed);
+                        if (!game.isCellOccupied(static_cast<int>(getX()), static_cast<int>(getY() + moveSpeed)))
+                        {
+                            setY(getY() + moveSpeed);
+                        }
                     }
                     else
                     {
-                        setY(getY() - moveSpeed);
+                        if (!game.isCellOccupied(static_cast<int>(getX()), static_cast<int>(getY() - moveSpeed)))
+                        {
+                            setY(getY() - moveSpeed);
+                        }
                     }
                 }
             }
@@ -84,7 +97,7 @@ public:
 
     void draw() const override
     {
-        std::cout << "[" << getName() << "] "<< getHp() <<" HP (" << getX() << ", " << getY() << ") " << std::endl;
+        std::cout << "[" << getName() << "] " << getHp() << " HP (" << getX() << ", " << getY() << ") " << std::endl;
     }
 };
 
