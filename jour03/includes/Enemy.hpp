@@ -31,7 +31,7 @@ public:
 
         for (const auto &obj : game.getObjects())
         {
-            if (obj->getId() == 1) // ID 1 pour le joueur
+            if (obj->getId() == 1)
             {
                 player = dynamic_cast<Character *>(obj.get());
                 if (player)
@@ -50,14 +50,13 @@ public:
             double distX = player->getX() - getX();
             double distY = player->getY() - getY();
 
-            if (std::abs(distX) <= 1.0 && std::abs(distY) <= 1.0) // Ajustez la portée d'attaque ici
+            if (std::abs(distX) <= 1.0 && std::abs(distY) <= 1.0)
             {
                 attack(*player);
             }
             else
             {
-                // Déplacement en X ou Y
-                if (std::abs(distX) > std::abs(distY)) // Déplacement principalement en X
+                if (std::abs(distX) > std::abs(distY)) 
                 {
                     if (distX > 0)
                     {

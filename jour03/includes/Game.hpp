@@ -20,22 +20,18 @@ public:
 
     void updateGame()
     {
-        // Réinitialiser la grille
         for (auto &row : collisionGrid)
         {
             std::fill(row.begin(), row.end(), false);
         }
 
-        // Mettre à jour les objets
         for (auto &obj : gameObjects)
         {
             obj->update();
         }
 
-        // Vérifier les collisions
         checkCollisions();
 
-        // Nettoyer les objets morts
         gameObjects.erase(
             std::remove_if(gameObjects.begin(), gameObjects.end(),
                            [](const std::unique_ptr<GameObject> &p)
