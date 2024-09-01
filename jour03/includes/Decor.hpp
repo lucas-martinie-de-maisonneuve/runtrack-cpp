@@ -11,7 +11,7 @@ public:
 
     void draw() const override
     {
-        std::cout << "Drawing Decor at (" << getX() << ", " << getY() << ")" << std::endl;
+        std::cout << "Decor at (" << getX() << ", " << getY() << ") | ";
     }
 
     void update() override

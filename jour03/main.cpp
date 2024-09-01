@@ -29,6 +29,7 @@ int main()
     {
         std::cout << "Turn nb : " << turn << "\n";
         game.drawObjects();
+        game.drawMap();
 
         game.updateGame();
 

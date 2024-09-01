@@ -72,7 +72,9 @@ public:
                       << "       |    [1] Switch Weapon                    |\n"
                       << "       |    [2] Move                             |\n"
                       << "       |    [3] Attack                           |\n"
-                      << "       |    [4] End Turn                         |\n"
+                      << "       |    [4] Show Map                         |\n"
+                      << "       |    [5] Show Entities                    |\n"
+                      << "       |    [6] End Turn                         |\n"
                       << "       +-----------------------------------------+\n\t";
 
             std::cin >> action;
@@ -191,8 +193,13 @@ public:
                     }
                 }
                 break;
-
             case '4':
+                game.drawMap();
+                break;
+            case '5':
+                game.drawObjects();
+                break;
+            case '6':
                 std::cout << getName() << " ended their turn." << std::endl;
                 turnOver = true;
                 break;
@@ -206,7 +213,7 @@ public:
 
     void draw() const override
     {
-        std::cout << "[" << getName() << "] " << getHp() << " HP (" << getX() << ", " << getY() << ") " << std::endl;
+        std::cout << "[" << getName() << "] " << getHp() << " HP (" << getX() << ", " << getY() << ") | ";
     }
 };
 

@@ -96,7 +96,7 @@ public:
 
     void draw() const override
     {
-        std::cout << "[" << getName() << "] " << getHp() << " HP (" << getX() << ", " << getY() << ") " << std::endl;
+        std::cout << "[" << getName() << "] " << getHp() << " HP (" << getX() << ", " << getY() << ") | ";
     }
 };
 
